@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MovieApi.DTOs;
+using MovieApi.Helpers;
 using MoviesAPI.DTOs;
 using MoviesAPI.Helpers;
 using System;
@@ -38,12 +39,32 @@ namespace MovieApi.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signinManager;
         private readonly IConfiguration Configuration;
+        private readonly ApplicationDBContext context;
+        private readonly IMapper mapper;
+
         public AccountsController(UserManager<IdentityUser> _userManager, SignInManager<IdentityUser> _signinManager,
-                                  IConfiguration _configuration)
+                                  IConfiguration _configuration, ApplicationDBContext _context,
+                                  IMapper _mapper)
         {
             userManager = _userManager;
             signinManager = _signinManager;
             Configuration = _configuration;
+            context = _context;
+            mapper = _mapper;
+        }
+
+
+        //GETTING ALL USERS FROM DB
+        [HttpGet("Users")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<UserDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
+        {
+            //Users is our AspNetUsers table in the database
+            var queryable = context.Users.AsQueryable();
+            queryable = queryable.OrderBy(x => x.Email);
+            await HttpContext.InsertPaginationParametersInResponse(queryable, paginationDTO.RecordsPerPage);
+            var users = await queryable.Paginate(paginationDTO).ToListAsync();
+            return mapper.Map<List<UserDTO>>(users);
         }
 
         [HttpPost("Create")]
@@ -60,6 +81,18 @@ namespace MovieApi.Controllers
             {
                 return BadRequest(result.Errors);
             }
+        }
+
+        [HttpPost("RenewToken")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult<UserToken>> Renew()
+        {
+            var userInfo = new UserInfo
+            {
+                EmailAddress = HttpContext.User.Identity.Name
+            };
+
+            return await BuildToken(userInfo);
         }
 
         [HttpPost("Login")]
@@ -99,6 +132,41 @@ namespace MovieApi.Controllers
             };
 
 
+        }
+
+        [HttpGet("Roles")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult<List<string>>> GetRoles()
+        {
+            return await context.Roles.Select(x => x.Name).ToListAsync();
+        }
+
+        [HttpPost("AssignRole")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult> AssignRole(EditRoleDTO editRoleDTO)
+        {
+            var user = await userManager.FindByIdAsync(editRoleDTO.UserId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, editRoleDTO.RoleName));
+            return NoContent();
+        }
+
+        [HttpPost("RemoveRole")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<ActionResult> RemoveRole(EditRoleDTO editRoleDTO)
+        {
+            var user = await userManager.FindByIdAsync(editRoleDTO.UserId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            await userManager.RemoveClaimAsync(user, new Claim(ClaimTypes.Role, editRoleDTO.RoleName));
+            return NoContent();
         }
 
 

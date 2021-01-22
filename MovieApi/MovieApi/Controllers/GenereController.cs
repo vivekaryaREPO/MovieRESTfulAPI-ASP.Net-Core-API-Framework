@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -161,6 +163,7 @@ namespace MovieApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Roles ="")]
         public async Task<ActionResult<GenreCreationDTO>> Post([FromBody] GenreCreationDTO genre) //[FromBody] is optional
         {
             var genreTemp = mapper.Map<Genre>(genre);
