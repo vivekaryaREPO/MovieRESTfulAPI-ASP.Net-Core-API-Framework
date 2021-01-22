@@ -68,15 +68,18 @@ namespace MovieApi
             services.AddHttpContextAccessor();
 
             services.AddTransient<MyActionFilter>();
+            services.AddTransient<HashService>();
 
             // services.AddTransient<IHostedService, WriteToFileHostedService>();
             services.AddTransient<IHostedService, MovieInTheatersService>();
-            //services.AddCors();
+            //services.AddCors(); //method 1
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAPIRequestIO",
                 builder => builder.WithOrigins("www.apirequest.io.").WithMethods("Get", "Post").AllowAnyHeader());
-            });
+            }); //method 2
+
+            services.AddDataProtection();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> _logger)
@@ -156,7 +159,8 @@ namespace MovieApi
             //app.UseResponseCaching();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors(builder => builder.WithOrigins("www.apirequest.io.").WithMethods("Get","Post").AllowAnyHeader());
+            app.UseCors(); //method 2
+            //app.UseCors(builder => builder.WithOrigins("www.apirequest.io.").WithMethods("Get","Post").AllowAnyHeader()); //method 1
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
