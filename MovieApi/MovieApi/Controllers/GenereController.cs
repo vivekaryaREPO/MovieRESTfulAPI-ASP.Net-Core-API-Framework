@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,7 @@ namespace MovieApi.Controllers
 {
     [Route("api/genere")]
     [ApiController]
+    [EnableCors(PolicyName = "AllowAPIRequestIO")]
     public class GenereController : ControllerBase
     {
         private readonly IRepository repo;

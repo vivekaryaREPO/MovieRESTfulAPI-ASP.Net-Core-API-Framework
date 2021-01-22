@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace MovieApi.Controllers
 {
     [ApiController]
     [Route("api/people")]
+    [EnableCors(PolicyName = "AllowAPIRequestIO")]
     public class PeopleController:ControllerBase
     {
         private readonly ApplicationDBContext context;

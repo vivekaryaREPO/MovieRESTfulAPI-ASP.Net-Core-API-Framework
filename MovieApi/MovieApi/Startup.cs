@@ -41,7 +41,8 @@ namespace MovieApi
             services.AddAutoMapper(typeof(Startup)); //AddAutoMapper() is an extension method
             services.AddDbContext<ApplicationDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); //UseSqlServer() is an extension method
-            services.AddControllers(options=> {
+            services.AddControllers(options =>
+            {
                 options.Filters.Add(typeof(MyExceptionFilter));
             }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 
@@ -60,9 +61,9 @@ namespace MovieApi
                          ValidateIssuerSigningKey = true,
                          IssuerSigningKey = new SymmetricSecurityKey(
                              Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
-                         ClockSkew=TimeSpan.Zero
+                         ClockSkew = TimeSpan.Zero
                      }
-                     ) ;
+                     );
             services.AddTransient<IFileStorageService, InAppStorageService>();
             services.AddHttpContextAccessor();
 
@@ -70,8 +71,13 @@ namespace MovieApi
 
             // services.AddTransient<IHostedService, WriteToFileHostedService>();
             services.AddTransient<IHostedService, MovieInTheatersService>();
+            //services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAPIRequestIO",
+                builder => builder.WithOrigins("www.apirequest.io.").WithMethods("Get", "Post").AllowAnyHeader());
+            });
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> _logger)
         {
@@ -150,7 +156,7 @@ namespace MovieApi
             //app.UseResponseCaching();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors(builder => builder.WithOrigins("www.apirequest.io.").WithMethods("Get","Post").AllowAnyHeader());
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

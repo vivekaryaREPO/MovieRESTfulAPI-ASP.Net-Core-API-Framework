@@ -13,6 +13,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ namespace MovieApi.Controllers
 {
     [Route("api/accounts")]
     [ApiController]
+    [EnableCors(PolicyName = "AllowAPIRequestIO")]
     public class AccountsController:ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;
