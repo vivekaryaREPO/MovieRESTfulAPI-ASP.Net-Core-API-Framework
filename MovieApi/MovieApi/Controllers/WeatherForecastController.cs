@@ -11,7 +11,7 @@ namespace MovieApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [EnableCors(PolicyName = "AllowAPIRequestIO")]
+  //  [EnableCors(PolicyName = "AllowAPIRequestIO")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

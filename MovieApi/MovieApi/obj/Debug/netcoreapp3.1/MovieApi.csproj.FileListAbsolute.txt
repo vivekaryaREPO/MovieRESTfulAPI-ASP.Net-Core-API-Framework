@@ -89,5 +89,10 @@ G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\bin\Debug\netcoreapp3.1\
 G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\bin\Debug\netcoreapp3.1\Nito.Collections.Deque.dll
 G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\bin\Debug\netcoreapp3.1\Nito.Disposables.dll
 G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\bin\Debug\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll
+G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\obj\Debug\netcoreapp3.1\MovieApi.csproj.CoreCompileInputs.cache
+G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\obj\Debug\netcoreapp3.1\MovieApi.MvcApplicationPartsAssemblyInfo.cs
 G:\Programming\DotNet\ASP-DOTNET-CORE\MovieApi\MovieApi\obj\Debug\netcoreapp3.1\MovieApi.MvcApplicationPartsAssemblyInfo.cache

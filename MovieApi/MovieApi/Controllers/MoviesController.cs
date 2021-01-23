@@ -21,7 +21,7 @@ namespace MovieApi.Controllers
 {
     [ApiController]
     [Route("api/movies")]
-    [EnableCors(PolicyName = "AllowAPIRequestIO")]
+   // [EnableCors(PolicyName = "AllowAPIRequestIO")]
     public class MoviesController : ControllerBase
     {
         private readonly ApplicationDBContext context;
@@ -164,6 +164,7 @@ namespace MovieApi.Controllers
 
 
         [HttpGet("{id}", Name = "getMovie")]
+
         public async Task<ActionResult<MovieDetailsDTO>> Get(int id)
         {
             

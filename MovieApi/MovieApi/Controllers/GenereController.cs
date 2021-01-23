@@ -18,7 +18,7 @@ namespace MovieApi.Controllers
 {
     [Route("api/genere")]
     [ApiController]
-    [EnableCors(PolicyName = "AllowAPIRequestIO")]
+   // [EnableCors(PolicyName = "AllowAPIRequestIO")]
     public class GenereController : ControllerBase
     {
         private readonly IRepository repo;
@@ -156,6 +156,8 @@ namespace MovieApi.Controllers
 
 
         [HttpGet("{id:int}", Name = "getGenreById")]
+        [ProducesResponseType(typeof(GenreDTO),200)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<GenreDTO>> Get(int id)
         {
             //AsNoTracking() is just for performance enhancement: as we don't want to track changes into the resulting Genres of this query.

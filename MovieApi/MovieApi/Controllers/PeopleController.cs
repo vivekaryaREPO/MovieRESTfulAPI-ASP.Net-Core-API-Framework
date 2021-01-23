@@ -17,7 +17,7 @@ namespace MovieApi.Controllers
 {
     [ApiController]
     [Route("api/people")]
-    [EnableCors(PolicyName = "AllowAPIRequestIO")]
+   // [EnableCors(PolicyName = "AllowAPIRequestIO")]
     public class PeopleController:ControllerBase
     {
         private readonly ApplicationDBContext context;
